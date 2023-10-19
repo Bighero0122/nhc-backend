@@ -1,0 +1,15 @@
+{
+  "name": "nutrihc-backend",
+  "version": "1.0.0",
+  "description": "Nutrition Healthy Care",
+  "main": "index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "nhc-backend"
+  },
+  "author": "KDU",
+  "license": "MIT"
+}

@@ -1,0 +1,1956 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Blockdance",
+    "description": "Blockdance Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3001",
+  "basePath": "/api/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    },
+    {
+      "name": "Account",
+      "description": "API for account in the system"
+    },
+    {
+      "name": "Transfer",
+      "description": "API for transfer in the system"
+    },
+    {
+      "name": "Beneficiary",
+      "description": "API for beneficiary in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "definitions": {
+    "bad_request": {
+      "description": "Bad request model",
+      "properties": {
+        "error": {
+          "description": "Bad request message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Bad request",
+      "type": "object",
+      "x-model": "Bad request"
+    },
+    "error_limited": {
+      "description": "Error limited model",
+      "properties": {
+        "error": {
+          "description": "Error limited message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Error limited",
+      "type": "object",
+      "x-model": "Error limited"
+    },
+    "payment_required": {
+      "description": "Error limited model",
+      "properties": {
+        "error": {
+          "description": "Error limited message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Error limited",
+      "type": "object",
+      "x-model": "Error limited"
+    },
+    "forbidden": {
+      "description": "Forbidden model",
+      "properties": {
+        "error": {
+          "description": "Forbidden message",
+          "type": "string"
+        },
+        "sso_status": {
+          "description": "status code received from SSO",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Forbidden",
+      "type": "object",
+      "x-model": "Forbidden"
+    },
+    "gateway_timeout": {
+      "description": "Gateway timeout model",
+      "properties": {
+        "error": {
+          "description": "Gateway timeout message",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "number of seconds the request was given",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Gateway timeout",
+      "type": "object",
+      "x-model": "Gateway timeout"
+    },
+    "internal_server_error": {
+      "description": "Internal server error model",
+      "properties": {
+        "error": {
+          "description": "Unkown error",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Internal server error",
+      "type": "object",
+      "x-model": "Internal server error"
+    },
+    "service_unavailable": {
+      "description": "Service unavailable model",
+      "properties": {
+        "error": {
+          "description": "Service unavailable message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Service unavailable",
+      "type": "object",
+      "x-model": "Service unavailable"
+    },
+    "unauthorized": {
+      "description": "Unauthorized model",
+      "properties": {
+        "error": {
+          "description": "Unauthorized message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "Unauthorized",
+      "type": "object",
+      "x-model": "Unauthorized"
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/user/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register user in system",
+        "operationId": "get_characters_character_id_location",
+        "parameters": [
+          {
+            "$ref": "#/parameters/signup/First Name"
+          },
+          {
+            "$ref": "#/parameters/signup/Last Name"
+          },
+          {
+            "$ref": "#/parameters/signup/Email"
+          },
+          {
+            "$ref": "#/parameters/signup/Phone Number"
+          },
+          {
+            "$ref": "#/parameters/signup/Birthday"
+          },
+          {
+            "$ref": "#/parameters/signup/Password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You have been successfully registered",
+                "res": {
+                  "id": "2"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing registration input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Sign user",
+        "parameters": [
+          {
+            "$ref": "#/parameters/signin/Email"
+          },
+          {
+            "$ref": "#/parameters/signin/Password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "userId": "1",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoiQXJha2kgS3lvdSIsInBlcm1pc3Npb24iOiIwIiwiaWF0IjoxNjY5OTI0NTc0LCJleHAiOjE2Njk5MjgxNzR9.fULB2eHN5iu7M5U0HqmMqUMJHSYUeH16FP_bWs12d5s",
+                "expirationTime": 3600
+              }
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing signin input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Sign user",
+        "parameters": [
+          {
+            "$ref": "#/parameters/register/Email"
+          },
+          {
+            "$ref": "#/parameters/register/Phone Number"
+          },
+          {
+            "$ref": "#/parameters/register/Mobile Prefix"
+          },
+          {
+            "$ref": "#/parameters/register/Password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "userId": "1",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoiQXJha2kgS3lvdSIsInBlcm1pc3Npb24iOiIwIiwiaWF0IjoxNjY5OTI0NTc0LCJleHAiOjE2Njk5MjgxNzR9.fULB2eHN5iu7M5U0HqmMqUMJHSYUeH16FP_bWs12d5s",
+                "expirationTime": 3600
+              }
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing register input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/checkduplicateregister": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Check Duplicate Register",
+        "parameters": [
+          {
+            "$ref": "#/parameters/checkduplicateregister/Email"
+          },
+          {
+            "$ref": "#/parameters/checkduplicateregister/IsRecovery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You can do next step"
+              }
+            }
+          },
+          "402": {
+            "description": "The user is not exist",
+            "examples": {
+              "application/json": {
+                "message": "The user is exist & The user is not exist"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/getme": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "user_id": "1",
+                "first_name": "Araki",
+                "last_name": "Kyou",
+                "mail": "araki@gmail.com",
+                "contact_phone": "1 12345123412",
+                "password": "$2b$08$pCdSVOOoS6fcGwRg1CdZou5yCNG7XmK6zFkaDxyzPIjSGu1Zz1ryC",
+                "address1": "0",
+                "city": "0",
+                "state": "0",
+                "post_code": "0",
+                "country_name": "United States"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/user": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Change profile information in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/profile/Email"
+          },
+          {
+            "$ref": "#/parameters/profile/First Name"
+          },
+          {
+            "$ref": "#/parameters/profile/Last Name"
+          },
+          {
+            "$ref": "#/parameters/profile/Phone Number"
+          },
+          {
+            "$ref": "#/parameters/profile/Birthday"
+          },
+          {
+            "$ref": "#/parameters/profile/Address"
+          },
+          {
+            "$ref": "#/parameters/profile/City"
+          },
+          {
+            "$ref": "#/parameters/profile/State"
+          },
+          {
+            "$ref": "#/parameters/profile/Zip Code"
+          },
+          {
+            "$ref": "#/parameters/profile/Country"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Update profile successfully",
+                "res": {
+                  "user_id": "1",
+                  "first_name": "Araki",
+                  "last_name": "Kyou",
+                  "mail": "araki@gmail.com",
+                  "contact_phone": "1 12345123412",
+                  "password": "$2b$08$pCdSVOOoS6fcGwRg1CdZou5yCNG7XmK6zFkaDxyzPIjSGu1Zz1ryC",
+                  "address1": "Elsalva street, 127",
+                  "city": "Madrid",
+                  "state": "Madrid",
+                  "post_code": "S23",
+                  "country_name": "Spain"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing password input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/changepwd": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Change user password in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/changepwd/Old Password"
+          },
+          {
+            "$ref": "#/parameters/changepwd/New Password"
+          },
+          {
+            "$ref": "#/parameters/changepwd/Confirm Password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Change password successfully."
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing password input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/getvendor": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Generate vendordata",
+        "parameters": [
+          {
+            "$ref": "#/parameters/vendor/Email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Register vendordata successfully",
+                "vendorData": "di28feifief-fief8821o093ikf"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/kyc": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Check vendor data",
+        "parameters": [
+          {
+            "$ref": "#/parameters/kyc/VendorData"
+          },
+          {
+            "$ref": "#/parameters/kyc/Status"
+          },
+          {
+            "$ref": "#/parameters/kyc/Reason"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Send email successfully"
+              }
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "There is no equal vendor data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer/verify": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Verify sent code from email",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Verify successfully"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Check email code and return success",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You have been successfully registered",
+                "res": {
+                  "id": "2"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer": {
+      "post": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Register the transaction in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/transfer/Exchange rate"
+          },
+          {
+            "$ref": "#/parameters/transfer/Sent amount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Payment successfull"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer/recent": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get recent transactions from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "9",
+                "type": "currency",
+                "dateTime": "2022-12-01T21:05:00.000Z",
+                "name": "Transfer Between Members",
+                "description": "Sent funds to staking from EUR Account(691223014502)",
+                "amount": "866.5634",
+                "currency": "EUR",
+                "class": "green-currency"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "There is no transaction!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer/{id}": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get selected account's transactions from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "1",
+                "type": "currency",
+                "dateTime": "2022-12-01T19:12:56.000Z",
+                "name": "Transfer Between Members",
+                "description": "Sent funds to staking from EUR Account(691223014502)",
+                "amount": "1000.0000",
+                "currency": "USD",
+                "class": "red-currency"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer/detail/{id}": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get detail information about selected transaction from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "name": "Transfer Between Members",
+                "description": "Transfer Between Members",
+                "id": "1",
+                "amount": "1000.0000",
+                "received": "866.5634",
+                "fee": "2.0000",
+                "rate": "0.8683",
+                "createDate": "2022-12-01T19:12:56.000Z",
+                "status": "completed",
+                "transactionType": "sent",
+                "updateDate": "2022-12-01T19:12:56.000Z",
+                "currency": "USD",
+                "toCurrency": "EUR",
+                "class": "red-currency",
+                "fromName": "Araki Kyou",
+                "toName": "Araki Kyou",
+                "fromEmail": "araki@gmail.com",
+                "toEmail": "araki@gmail.com",
+                "fromAccountSerial": "725400250537",
+                "toAccountSerial": "329625682670"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/transfer/notification/sendmoney": {
+      "post": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Send Money Transaction Notification",
+        "parameters": [
+          {
+            "$ref": "#/parameters/transfer/Sender ID"
+          },
+          {
+            "$ref": "#/parameters/transfer/Receiver ID"
+          },
+          {
+            "$ref": "#/parameters/transfer/Sent amount"
+          },
+          {
+            "$ref": "#/parameters/transfer/Received amount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "senderEmailAddress": "abc@blockdance.io",
+                "senderUserName": "abc",
+                "senderAccountName": "abc EUR account",
+                "senderCurrency": "EUR",
+                "sendAmount": 100,
+                "receiverEmailAddress": "cba@blockdance.io",
+                "receiverUserName": "cba",
+                "receiverAccountName": "cba usd account",
+                "receiverCurrency": "USD",
+                "receiveAmount": 90
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing account registration input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/account": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Register account in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account/Account Name"
+          },
+          {
+            "$ref": "#/parameters/account/Currency"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Success"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing account registration input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get all accounts from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "6",
+                "name": "USD account",
+                "serial": "461287044951",
+                "availableBalance": "0.0000",
+                "balance": "0.0000",
+                "currency": "USD",
+                "color": "green-card"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "There is no account!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/account/{id}": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get detail information and transaction from selected account from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "id": "6",
+                "name": "USD account",
+                "serial": "461287044951",
+                "availableBalance": "0.0000",
+                "balance": "0.0000",
+                "currency": "USD",
+                "color": "green-card"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Delete account in system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "Delete successfully",
+                "res": {
+                  "id": "6",
+                  "name": "USD account",
+                  "serial": "461287044951",
+                  "availableBalance": "0.0000",
+                  "balance": "0.0000",
+                  "currency": "USD",
+                  "color": "green-card"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/account/notification/createaccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Create Account Notification",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account/Account Id"
+          },
+          {
+            "$ref": "#/parameters/account/Currency"
+          },
+          {
+            "$ref": "#/parameters/account/IBAN"
+          },
+          {
+            "$ref": "#/parameters/account/BBAN"
+          },
+          {
+            "$ref": "#/parameters/account/Sort Code"
+          },
+          {
+            "$ref": "#/parameters/account/Account Name"
+          },
+          {
+            "$ref": "#/parameters/account/User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "emailAddress": "abc@blockdance.io",
+                "accountName": "USD Account"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing account registration input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary": {
+      "get": {
+        "tags": [
+          "Beneficiary"
+        ],
+        "summary": "Get beneficiary from system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "res": {
+                  "id": "2",
+                  "imgLink": "/asset/Avatars/watanabe.png",
+                  "email": "watanabe@blockdance.io",
+                  "name": "Bunny",
+                  "currency": "EURO",
+                  "sortCode": "2345689",
+                  "accountNumber": "928471827349819283",
+                  "lastTransferDate": "11-28-2022"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "There is no beneficiary"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Beneficiary"
+        ],
+        "summary": "Register beneficiary in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/beneficiary/create/Name"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/create/Currency"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/create/Sort Code"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/create/Account Number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You have been successfully registered",
+                "res": {
+                  "id": "2",
+                  "imgLink": "/asset/Avatars/watanabe.png",
+                  "email": "watanabe@blockdance.io",
+                  "name": "Bunny",
+                  "currency": "EURO",
+                  "sortCode": "2345689",
+                  "accountNumber": "928471827349819283",
+                  "lastTransferDate": "11-28-2022"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "402": {
+            "description": "Required",
+            "examples": {
+              "application/json": {
+                "message": "Missing beneficiary registration input data!"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/payment_required",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary/{id}": {
+      "patch": {
+        "tags": [
+          "Beneficiary"
+        ],
+        "summary": "Update beneficiary's information in system",
+        "parameters": [
+          {
+            "$ref": "#/parameters/beneficiary/update/Name"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/update/Currency"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/update/Sort Code"
+          },
+          {
+            "$ref": "#/parameters/beneficiary/update/Account Number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You have been successfully updated",
+                "res": {
+                  "id": "2",
+                  "imgLink": "/asset/Avatars/watanabe.png",
+                  "email": "watanabe@blockdance.io",
+                  "name": "Bunny",
+                  "currency": "EURO",
+                  "sortCode": "2345689",
+                  "accountNumber": "928471827349819283",
+                  "lastTransferDate": "11-28-2022"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary/delete/{id}": {
+      "patch": {
+        "tags": [
+          "Beneficiary"
+        ],
+        "summary": "Delete beneficiary in system",
+        "responses": {
+          "200": {
+            "examples": {
+              "application/json": {
+                "message": "You have been successfully deleted",
+                "res": {
+                  "id": "3",
+                  "imgLink": "/asset/Avatars/watanabe.png",
+                  "email": "nakao@blockdance.io",
+                  "name": "Puppy",
+                  "currency": "USD",
+                  "sortCode": "65434329",
+                  "accountNumber": "638471827349819283",
+                  "lastTransferDate": "11-28-2022"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "examples": {
+              "application/json": {
+                "message": "Unauthorized User"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/unauthorized",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "examples": {
+              "application/json": {
+                "message": "Unknown error"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/internal_server_error",
+              "x-scope": [
+                "https://esi.evetech.net/_latest/swagger.json"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "signup": {
+      "First Name": {
+        "name": "First Name",
+        "type": "string"
+      },
+      "Last Name": {
+        "name": "Last Name",
+        "type": "string"
+      },
+      "Email": {
+        "name": "Email",
+        "type": "string"
+      },
+      "Phone Number": {
+        "name": "Phone Number",
+        "type": "string"
+      },
+      "Birthday": {
+        "name": "Birthday",
+        "type": "string"
+      },
+      "Password": {
+        "name": "Password",
+        "type": "string"
+      }
+    },
+    "signin": {
+      "Email": {
+        "name": "Email",
+        "type": "string"
+      },
+      "Password": {
+        "name": "Password",
+        "type": "string"
+      }
+    },
+    "vendor": {
+      "Email": {
+        "name": "Email",
+        "type": "string"
+      }
+    },
+    "kyc": {
+      "VendorData": {
+        "name": "vendorData",
+        "type": "string"
+      },
+      "Status": {
+        "name": "Status",
+        "type": "string"
+      },
+      "Reason": {
+        "name": "Reason",
+        "type": "string"
+      }
+    },
+    "checkduplicateregister": {
+      "Email": {
+        "name": "Email",
+        "type": "string"
+      },
+      "IsRecovery": {
+        "name": "IsRecovery",
+        "type": "boolean"
+      }
+    },
+    "profile": {
+      "First Name": {
+        "name": "First Name",
+        "type": "string"
+      },
+      "Last Name": {
+        "name": "Last Name",
+        "type": "string"
+      },
+      "Email": {
+        "name": "Email",
+        "type": "string"
+      },
+      "Phone Number": {
+        "name": "Phone Number",
+        "type": "string"
+      },
+      "Birthday": {
+        "name": "Birthday",
+        "type": "string"
+      },
+      "Address": {
+        "name": "Address",
+        "type": "string"
+      },
+      "City": {
+        "name": "City",
+        "type": "string"
+      },
+      "State": {
+        "name": "State",
+        "type": "string"
+      },
+      "Zip Code": {
+        "name": "Zip Code",
+        "type": "string"
+      },
+      "Country": {
+        "name": "Country",
+        "type": "string"
+      }
+    },
+    "changepwd": {
+      "Old Password": {
+        "name": "Old Password",
+        "type": "string"
+      },
+      "New Password": {
+        "name": "New Password",
+        "type": "string"
+      },
+      "Confirm Password": {
+        "name": "Confirm Password",
+        "type": "string"
+      }
+    },
+    "account": {
+      "Account Name": {
+        "name": "Account Name",
+        "type": "string"
+      },
+      "Currency": {
+        "name": "Currency",
+        "type": "string"
+      },
+      "Account Id": {
+        "name": "Account Id",
+        "type": "string"
+      },
+      "IBAN": {
+        "name": "IBAN",
+        "type": "string"
+      },
+      "BBAN": {
+        "name": "BBAN",
+        "type": "string"
+      },
+      "Sort Code": {
+        "name": "Sort Code",
+        "type": "string"
+      },
+      "User ID": {
+        "name": "User Id",
+        "type": "string"
+      }
+    },
+    "beneficiary": {
+      "create": {
+        "Name": {
+          "name": "Name",
+          "type": "string"
+        },
+        "Currency": {
+          "name": "Currency",
+          "type": "string"
+        },
+        "Sort Code": {
+          "name": "Sort Code",
+          "type": "string"
+        },
+        "Account Number": {
+          "name": "Account Number",
+          "type": "string"
+        }
+      },
+      "update": {
+        "Name": {
+          "name": "Name",
+          "type": "string"
+        },
+        "Currency": {
+          "name": "Currency",
+          "type": "string"
+        },
+        "Sort Code": {
+          "name": "Sort Code",
+          "type": "string"
+        },
+        "Account Number": {
+          "name": "Account Number",
+          "type": "string"
+        }
+      }
+    },
+    "transfer": {
+      "Sender ID": {
+        "name": "Sender ID",
+        "type": "string"
+      },
+      "Receiver ID": {
+        "name": "Receiver ID",
+        "type": "string"
+      },
+      "Sender Currency": {
+        "name": "Sender Currency",
+        "type": "string"
+      },
+      "Receiver Currency": {
+        "name": "Receiver Currency",
+        "type": "string"
+      },
+      "Exchange rate": {
+        "name": "Exchange rate",
+        "type": "number"
+      },
+      "Sent amount": {
+        "name": "Sent amount",
+        "type": "number"
+      },
+      "Received amount": {
+        "name": "Received amount",
+        "type": "number"
+      },
+      "Check owner": {
+        "name": "Checker owner",
+        "type": "number"
+      }
+    }
+  }
+}

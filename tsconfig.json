@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "sourceMap": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "outDir": "./dist/src",
+    "lib": ["es5", "es6", "ES2019"],
+    "moduleResolution": "node",
+    "types": ["node"],
+    "incremental": true,
+    "composite": true,
+    "baseUrl": "src"
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.json", "*.json", "src/services/saasUserCorporationSupportedCrypto.servicets"],
+  "exclude": ["./dist", "src/**/*.test.ts"]
+}

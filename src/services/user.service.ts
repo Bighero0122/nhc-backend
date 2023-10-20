@@ -33,5 +33,17 @@ export const createUser = async(email:string, name: string, password: string):Pr
     user.name = name;
     user.password = password;
     await userRepository.save(user);
+    user.password = null;
+    return user;
+}
+
+export const updateUser = async(email:string, password: string):Promise<UserEntity|null> => {
+    const userRepository = await getUserRepository();
+    const user: UserEntity | null = await userRepository.findOneBy({
+        email: email
+    });
+    user.password = password;
+    await userRepository.save(user);
+    user.password = null;
     return user;
 }

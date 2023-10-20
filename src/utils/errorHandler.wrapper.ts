@@ -19,7 +19,7 @@ export const errorHandlerWrapper = (
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         throw new ArgumentValidationError(
-          'Invalid Arguments',
+          'Invalid Arguments 2',
           errors.array().map((value: ValidationError) => value.msg)
         );
       }

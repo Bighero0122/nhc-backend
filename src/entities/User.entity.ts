@@ -3,6 +3,7 @@ import { Column, Entity, Generated } from "typeorm";
 import { CoreEntity } from "./Core.entity";
 
 import { UserActivationStatus } from 'types';
+import { CONFLICT } from "http-status";
 
 @Entity({
     name: 'user',

@@ -5,17 +5,21 @@ import { checkAuth } from 'utils';
 
 const userRouter = express.Router();
 
-userRouter.get("/me",
+userRouter.get("/",
     checkAuth,
     userController.getMeValidator(),
     userController.getMe
 );
 
-userRouter.post("/sign-up",
+userRouter.post("/",
     userController.registerValidator(),
     userController.register
 );
 
-userRouter.put("");
+userRouter.put("/",
+    checkAuth,
+    userController.updateValidator(),
+    userController.updatePassword
+);
 
 export default userRouter;
